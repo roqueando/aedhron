@@ -1,4 +1,3 @@
 # Lumni
 
-**TODO: Add description**
-
+A lumnicraft platform to RPGists

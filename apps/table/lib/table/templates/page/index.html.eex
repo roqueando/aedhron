@@ -1,0 +1,21 @@
+<%= render Table.ComponentView, "create_modal.html", conn: @conn%>
+<div class="ui left aligned container">
+  <h1 class="ui header title">lumni.table</h1>
+  <div class="ui buttons">
+    <button class="ui blue button" id="create-table">create a table</button>
+    <div class="or"></div>
+    <button class="ui purple button">join a table</button>
+  </div>
+  <br></br>
+  <div class="ui container text">
+    <p class="ui inverted">
+    The Lumni.Table is a module application to enjoy fun into a Tabletop RPG games.
+    </p>
+  </div>
+</div>
+<script charset="utf-8">
+  $('#create-table').click(() => {
+    $('.ui.modal.create').addClass('inverted');
+    $('.ui.modal.create').modal('show');
+  });
+</script>

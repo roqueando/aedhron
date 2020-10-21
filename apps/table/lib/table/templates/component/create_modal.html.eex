@@ -1,0 +1,36 @@
+<div class="ui modal create">
+  <i class="close icon"></i>
+  <div class="header">
+    Create a table!
+  </div>
+  <div class="content">
+    <div class="description">
+      <%= form_for @conn, Routes.table_path(@conn, :create), fn form -> %>
+
+        <div class="ui grid">
+          <div class="six wide column">
+            <label>Table name</label>
+            <br></br>
+            <div class="ui input">
+              <%= text_input form, :name, placeholder: 'Name of table' %>
+            </div>
+          </div>
+          <div class="six wide column">
+            <label>Player quantity</label>
+            <br></br>
+            <div class="ui input">
+              <%= text_input form, :max_players, placeholder: 'Quantity of players' %>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      Cancel
+    </div>
+
+    <%= submit "Save", class: "ui positive button"%>
+  </div>
+      <% end %>
+</div>

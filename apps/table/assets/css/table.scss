@@ -1,0 +1,48 @@
+$base-layout: #2E294E;
+@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
+$font-title: 'Cedarville Cursive', cursive;
+$font-base: 'Montserrat', sans-serif;
+$border-base-circle: 100%;
+
+body,html {
+    background: $base-layout !important;
+}
+
+.title {
+    font-family: $font-title !important;
+    color: #eee !important;
+}
+
+.text {
+    font-family: $font-base !important;
+    font-size: 18px !important;
+    color: #eee !important;
+}
+
+.image-circle {
+    border-radius: $border-base-circle;
+    width: 50%;
+    height: auto;
+}
+div.ui.modal {
+    color: #eee;
+}
+div.ui.modal.create>div.header {
+    color: #eee;
+    background-color: #333;
+}
+div.ui.modal.create>div.content {
+    background-color: #333;
+}
+div.ui.modal.create>div.actions {
+    background-color: #333;
+}
+.grid { margin:1em auto; border-collapse:collapse }
+.grid td {
+    width:60px; height:60px;
+    border:1px solid #ccc;
+    text-align:center;
+    font-family:sans-serif; font-size:13px
+}

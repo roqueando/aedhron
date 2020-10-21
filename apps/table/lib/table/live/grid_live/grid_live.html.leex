@@ -1,0 +1,21 @@
+<header style="padding: 3px; background-color: #333; color: #eee; ">
+  <button class="button is-small">add_token</button>
+  <span style="text-align: center"><%= @table_name %></span>
+</header>
+
+<script charset="utf-8">
+  let grid = document.createElement('table');
+  let rows = 9;
+  let cols = 21;
+  grid.className = 'grid';
+
+  for(let row = 0; row < rows; ++row) {
+    let tr = grid.appendChild(document.createElement('tr'));
+    for(let col = 0; col < cols; ++col) {
+      let cell = tr.appendChild(document.createElement('td'))
+    }
+  }
+
+  document.body.appendChild(grid)
+
+</script>

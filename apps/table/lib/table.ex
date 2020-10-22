@@ -65,6 +65,23 @@ defmodule Table do
     quote do
       use Phoenix.LiveView,
         layout: {Table.LayoutView, "live.html"}
+
+      def handle_event("open_modal", _value, socket) do
+        send_update Table.Components.Modal, id: "modal-create", state: :open, type: :create
+        {:noreply, socket}
+      end
+
+      def handle_event("close_modal", _value, socket) do
+        send_update Table.Components.Modal, id: "modal-create", state: :closed
+        {:noreply, socket}
+      end
+
+      def handle_event("open_add_token_modal", _value, socket) do
+        send_update Table.Components.Modal, id: "modal-create", state: :open, type: :add_token
+        {:noreply, socket}
+      end
+      
+      def component_id, do: Warehouse.generate_id
       unquote(view_helpers())
     end
   end

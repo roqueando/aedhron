@@ -46,3 +46,38 @@ div.ui.modal.create>div.actions {
     text-align:center;
     font-family:sans-serif; font-size:13px
 }
+
+.draggable-token {
+  width: 40px; 
+  height: 40px; 
+  background-color: #f73b7c; 
+  border-radius: 100%;
+  position: absolute;
+  left: 10px;
+  margin: 0 auto;
+  z-index: 9;
+  border: 2px solid #eee;
+  text-align: center;
+  cursor: move;
+  transition: .3s;
+}
+.draggable-token:hover {
+    border-width: 5px;
+}
+
+.status {
+    margin-top: 5px;
+}
+.status>div.health {
+    width: 5%;
+    height: 10px;
+    background: #ff6b6b;
+    font-size: 10px;
+}
+.status>div.mana {
+    width: 5%;
+    height: 10px;
+    background: #2e86de;
+    font-size: 10px;
+}
+

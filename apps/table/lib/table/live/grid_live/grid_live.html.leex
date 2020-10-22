@@ -1,7 +1,15 @@
+<%= live_component @socket, 
+  Table.Components.Modal, 
+  id: "modal-create"
+%>
 <header style="padding: 3px; background-color: #333; color: #eee; ">
-  <button class="button is-small">add_token</button>
+  <button class="button is-small" phx-click="open_add_token_modal">add_token</button>
   <span style="text-align: center"><%= @table_name %></span>
 </header>
+
+<%= for token <- @tokens do %>
+  <%= live_component @socket, Table.Components.Token, id: component_id(), token: token %>
+<% end %>
 
 <script charset="utf-8">
   let grid = document.createElement('table');

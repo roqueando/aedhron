@@ -11,4 +11,5 @@ defmodule Table.LiveHelpers do
     ]
     live_component(socket, Table.Components.Modal, modal_opts)
   end
+  def component_id, do: Warehouse.generate_id
 end

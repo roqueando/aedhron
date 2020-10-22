@@ -16,4 +16,21 @@ defmodule Table.GridLive do
       |> assign(:table_name, table.name)
     {:noreply, socket}
   end
+
+  def handle_event("create_token", %{"token" => token_params}, socket) do
+    token = %{
+      name: token_params["name"],
+      status: %{
+        health: 10,
+        mana: 10
+      },
+      moves: 6
+    }
+    socket = 
+      socket
+      |> assign(:tokens, [token | socket.assigns.tokens])
+
+    send_update Table.Components.Modal, id: "modal-create", state: :closed
+    {:noreply, socket}
+  end
 end

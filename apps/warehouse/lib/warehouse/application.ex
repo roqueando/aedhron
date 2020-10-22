@@ -6,8 +6,10 @@ defmodule Warehouse.Application do
   use Application
 
   def start(_type, _args) do
+    nodes = [node()]
+    persist_base(nodes)
 
-    Memento.Table.create!(Warehouse.Table, disc_copies: [node()])
+    Memento.Table.create(Warehouse.Table, disc_copies: nodes)
     children = [
       # Starts a worker by calling: Warehouse.Worker.start_link(arg)
       # {Warehouse.Worker, arg}
@@ -17,5 +19,11 @@ defmodule Warehouse.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Warehouse.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp persist_base(nodes) do
+    Memento.stop
+    Memento.Schema.create(nodes)
+    Memento.start
   end
 end

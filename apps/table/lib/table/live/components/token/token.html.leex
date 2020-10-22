@@ -1,5 +1,7 @@
 <div 
-  id="draggable-token-wrapper" phx-hook="DraggableToken">
+  class="draggable-token-wrapper" 
+  phx-hook="DraggableToken"  
+  id="<%= @token.id %>">
   <div class="status">
     <div class="health"><%= @token.status.health %></div>
     <div class="mana"><%= @token.status.mana %></div>
@@ -7,39 +9,3 @@
   <span class="tag is-warning is-outlined"><%= @token.name %></span>
   <div class="title is-5 draggable-token"></div>
 </div>
-
-<script>
-  var element = document.querySelector("#draggable-token-wrapper");
-    element.onclick = function() {
-        console.log('im talking')
-      }
-  console.log(element);
-  var draggableToken = document.querySelector(".draggable-token");
-
-  var active = false;
-  var currentX;
-  var currentY;
-  var initialX;
-  var initialY;
-  var xOffset = 0;
-  var yOffset = 0;
-
-  element.addEventListener("mousedown", dragStart, false);
-  element.addEventListener("mouseup", dragEnd, false);
-  element.addEventListener("mousemove", drag, false);
-
-  function dragStart(e) {
-    console.log('asdasd');
-    initialX = e.clientX - yOffset;
-    initialY = e.clientX - yOffset;
-    active = true;
-  }
-  function dragEnd(e) {
-    initialX = currentX;
-    initialY = currentY;
-    active = false;
-  }
-  function drag(e) {
-
-  }
-</script>

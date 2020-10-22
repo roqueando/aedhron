@@ -19,39 +19,41 @@ import LiveSocket from "phoenix_live_view"
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
 var active = false
-var currentX = null
-var currentY = null
 var initialX = null
 var initialY = null
-var xOffset = 0
-var yOffset = 0
 
 let Hooks = {
     DraggableToken: {
         mounted() {
-            this.element = this.el;
             this.el.addEventListener("mousedown", this.dragStart, false);
-            this.el.addEventListener("mouseup", this.dragEnd, false);
-            this.el.addEventListener("mousemove", e => {
+            $(this.el).mousemove(e => {
                 if(active) {
-                    e.preventDefault();
-                    currentX = e.clientX - initialX;
-                    currentY = e.clientY - initialY;
-                    xOffset = currentX;
-                    yOffset = currentY;
-                    this.el.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`
+                    let deltaX = e.pageX - initialX;
+                    let deltaY = e.pageY - initialY;
+
+                    console.log(this.el.getAttribute('id'))
+                    let current_offset = $(this.el).offset();
+                    $(this.el).offset({
+                        left: (current_offset.left + deltaX),
+                        top: (current_offset.top + deltaY)
+                    });
+
+                    initialX = e.pageX;
+                    initialY = e.pageY;
+                }
+            });
+            $(document).mouseup(() => {
+                if(active) {
+                    $(".draggable-token").css({backgroundColor: "#f73b7c"})
+                    active = false
                 }
             });
         },
         dragStart(e) {
-            initialX = e.clientX - xOffset;
-            initialY = e.clientY - yOffset;
+            initialX = e.pageX;
+            initialY = e.pageY;
             active = true;
-        },
-        dragEnd() {
-            initialX = currentX;
-            initialY = currentY;
-            active = false;
+            $(".draggable-token").css({backgroundColor: "blue"})
         }
     }
 }

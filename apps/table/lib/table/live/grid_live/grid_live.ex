@@ -19,6 +19,7 @@ defmodule Table.GridLive do
 
   def handle_event("create_token", %{"token" => token_params}, socket) do
     token = %{
+      id: Warehouse.generate_id(),
       name: token_params["name"],
       status: %{
         health: 10,

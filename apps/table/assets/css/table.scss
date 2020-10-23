@@ -5,6 +5,7 @@ $base-layout: #2E294E;
 $font-title: 'Cedarville Cursive', cursive;
 $font-base: 'Montserrat', sans-serif;
 $border-base-circle: 100%;
+$tag-color: #fdcb6e;
 
 body,html {
     background: $base-layout !important;
@@ -53,7 +54,7 @@ div.ui.modal.create>div.actions {
   background-color: #f73b7c; 
   border-radius: 100%;
   position: absolute;
-  left: 10px;
+  left: 15px;
   margin: 0 auto;
   z-index: 9;
   border: 2px solid #eee;
@@ -65,8 +66,13 @@ div.ui.modal.create>div.actions {
     border-width: 5px;
 }
 
+.draggable-token-wrapper {
+    cursor: move;
+}
+
 .status {
     margin-top: 5px;
+    text-align: center;
 }
 .status>div.health {
     width: 5%;
@@ -81,3 +87,17 @@ div.ui.modal.create>div.actions {
     font-size: 10px;
 }
 
+.tagged {
+    width: 64px;
+    height: 20px;
+    background-color: $tag-color;
+    padding: 1px;
+    margin-top: 2px;
+    text-align: center;
+}
+
+.actions {
+    position: absolute;
+    top: 15vh;
+    display: none;
+}

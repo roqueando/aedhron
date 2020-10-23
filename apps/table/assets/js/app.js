@@ -18,14 +18,26 @@ import LiveSocket from "phoenix_live_view"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
-var active = false
-var initialX = null
-var initialY = null
+var active = false;
+var initialX = null;
+var initialY = null;
+var actions_active = false;
 
 let Hooks = {
     DraggableToken: {
         mounted() {
             this.el.addEventListener("mousedown", this.dragStart, false);
+            $(this.el).mouseover(() => {
+                $(".actions").show();
+            });
+
+            $(this.el).click(() => actions_active = !actions_active);
+            $(this.el).mouseleave(() => {
+                if(!actions_active) {
+                    $(".actions").hide();
+                }
+            });
+
             $(this.el).mousemove(e => {
                 if(active) {
                     let deltaX = e.pageX - initialX;

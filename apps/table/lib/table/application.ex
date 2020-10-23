@@ -11,7 +11,8 @@ defmodule Table.Application do
       Table.Telemetry,
       # Start the Endpoint (http/https)
       Table.Endpoint,
-      # {Table.Worker, arg}
+      # {Table.Worker, arg},
+      {Phoenix.PubSub, name: Table.PubSub}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

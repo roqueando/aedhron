@@ -113,4 +113,13 @@ defmodule Table do
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])
   end
+
+  def subscribe(table_id) do
+    Phoenix.PubSub.subscribe(Table.PubSub, "tables:" <> table_id)
+  end
+
+  def broadcast(resource, event, table_id) do
+    Phoenix.PubSub.broadcast(Table.PubSub, "tables:" <> table_id, {event, resource})
+    resource
+  end
 end

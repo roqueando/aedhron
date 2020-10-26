@@ -18,54 +18,37 @@ import LiveSocket from "phoenix_live_view"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
-var active = false;
-var initialX = null;
-var initialY = null;
-var actions_active = false;
+var movementable = false;
 
 let Hooks = {
     DraggableToken: {
         mounted() {
-            this.el.addEventListener("mousedown", this.dragStart, false);
-            $(this.el).mouseover(() => {
-                $(".actions").show();
-            });
+            const position = this.el.getAttribute('data-position');
+            const field = $(`td[data-position='${position}']`)[0]
+            field.appendChild(this.el);
+            $("td").click(e => {
+                if(movementable) {
+                    e.target.appendChild(this.el);
+                    console.log(e.target.getAttribute('data-position'))
+                }
+            })
 
-            $(this.el).click(() => actions_active = !actions_active);
-            $(this.el).mouseleave(() => {
-                if(!actions_active) {
-                    $(".actions").hide();
+            $(this.el).click(() => {
+                movementable = !movementable;
+                if(movementable) {
+                    $(".draggable-token").css({ backgroundColor: "orange" })
+                } else {
+                    $(".draggable-token").css({ backgroundColor: "#f73b7c" })
                 }
             });
 
-            $(this.el).mousemove(e => {
-                if(active) {
-                    let deltaX = e.pageX - initialX;
-                    let deltaY = e.pageY - initialY;
-
-                    console.log(this.el.getAttribute('id'))
-                    let current_offset = $(this.el).offset();
-                    $(this.el).offset({
-                        left: (current_offset.left + deltaX),
-                        top: (current_offset.top + deltaY)
-                    });
-
-                    initialX = e.pageX;
-                    initialY = e.pageY;
-                }
-            });
-            $(document).mouseup(() => {
-                if(active) {
-                    $(".draggable-token").css({backgroundColor: "#f73b7c"})
-                    active = false
-                }
-            });
-        },
-        dragStart(e) {
-            initialX = e.pageX;
-            initialY = e.pageY;
-            active = true;
-            $(".draggable-token").css({backgroundColor: "blue"})
+        }
+    },
+    DiceResult: {
+        updated() {
+            setTimeout(() => {
+                $(".dice-result").css({display: 'none'});
+            }, 4000)
         }
     }
 }

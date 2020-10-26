@@ -1,13 +1,15 @@
 <div 
   class="draggable-token-wrapper" 
   phx-hook="DraggableToken"  
-  id="<%= @token.id %>">
+  id="<%= @token.id %>"
+  data-position="<%= @token.position %>"
+  >
   <div class="status">
     <div class="health"><%= @token.status.health %></div>
     <div class="mana"><%= @token.status.mana %></div>
   </div>
-  <div class="tagged"><%= @token.name %></div>
   <div class="title is-5 draggable-token"></div>
+  <div class="tagged"><%= @token.name %></div>
   <div class="actions">
     <div class="field has-addons">
       <p class="control">

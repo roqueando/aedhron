@@ -17,6 +17,7 @@ defmodule Table.GridLive do
     socket =
       socket
       |> assign(:table_id, id)
+      |> assign(:page_title, "Lumni @ #{table.name}")
       |> assign(:table_name, table.name)
     {:noreply, socket}
   end
@@ -29,6 +30,7 @@ defmodule Table.GridLive do
         health: 10,
         mana: 10
       },
+      position: "a0",
       moves: 6
     }
     token |> Table.broadcast(:token_created, socket.assigns.table_id)
@@ -41,4 +43,7 @@ defmodule Table.GridLive do
   def handle_info({:token_created, token}, socket) do
     {:noreply, assign(socket, :tokens, [token | socket.assigns.tokens])}
   end
+
+  # TODO: when click to move the token
+  # move and broadcast to all the new position
 end

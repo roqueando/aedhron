@@ -1,0 +1,9 @@
+<div class="dice-result <%= @dice %> <%= if @state == :show, do: 'active', else: '' %>" phx-hook="DiceResult">
+  <span class="icon" style="display: inline">
+
+    <%= if @dice do%>
+      <img src="<%= Routes.static_path(@socket, "/images/#{@dice}.svg")%>" alt="" class="dice-rotate"/>
+    <% end %>
+  </span>
+    <span>rolled <%= @dice %> and results <%= @result %></span>
+</div>

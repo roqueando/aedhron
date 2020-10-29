@@ -3,7 +3,11 @@
   id: "modal-create"
 %>
 <%= live_component @socket, Table.Components.DiceResult, id: "dice_result" %>
-<header style="padding: 3px; background-color: #333; color: #eee; ">
+<header 
+  style="padding: 3px; background-color: #333; color: #eee; "
+  phx-hook="GridLive"
+  id="grid_live"
+  >
   <button class="button is-small" phx-click="open_add_token_modal">
     <i class="fas fa-street-view"></i>
   </button>
@@ -26,29 +30,6 @@
   <%= live_component @socket, Table.Components.Token, id: component_id(), token: token %>
 <% end %>
 
-<script charset="utf-8">
-  let grid = document.createElement('table');
-  let rows = 9;
-  let cols = 21;
-  grid.className = 'grid';
-  let alphabet = [
-    'a', 'b', 'c', 'd',
-    'e', 'f', 'g', 'h',
-    'i', 'j', 'k', 'l',
-    'm', 'n', 'o', 'p',
-    'q', 'r', 's', 't',
-    'u', 'v', 'y', 'x',
-    'z'
-    ];
-
-  for(let row = 0; row < rows; ++row) {
-    let tr = grid.appendChild(document.createElement('tr'));
-    for(let col = 0; col < cols; ++col) {
-      let cell = tr.appendChild(document.createElement('td'))
-      cell.setAttribute("data-position", `${alphabet[row]}${col}`)
-    }
-  }
-
-  document.body.appendChild(grid)
-
-</script>
+<div id="grid" phx-update="ignore">
+  
+</div>

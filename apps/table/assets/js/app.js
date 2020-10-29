@@ -15,33 +15,53 @@ import "../css/table.scss"
 import "phoenix_html"
 import {Socket} from "phoenix"
 import LiveSocket from "phoenix_live_view"
+import {extractData, initGrid, updateStageAndLayer, variables} from "./grid";
+import {drawToken, shadow, toggle_arcs} from './token'
+//import {initGrid, extractData, drawToken} from './grid';
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
-var movementable = false;
-
 let Hooks = {
+    GridLive: {
+        mounted() {
+            const { stage, gridLayer,  layer} = initGrid();
+            shadow.hide();
+
+            stage.add(gridLayer);
+            stage.add(layer);
+
+            updateStageAndLayer(stage, gridLayer, layer)
+        }
+    },
     DraggableToken: {
         mounted() {
-            const position = this.el.getAttribute('data-position');
-            const field = $(`td[data-position='${position}']`)[0]
-            field.appendChild(this.el);
-            $("td").click(e => {
-                if(movementable) {
-                    e.target.appendChild(this.el);
-                    console.log(e.target.getAttribute('data-position'))
-                }
+            const { stage, gridLayer, layer } = variables;
+            const info = extractData(this.el);
+            console.log(`mounted ${info.id}`);
+            const token = drawToken(stage, info) 
+
+            //layer.add(shadow);
+            gridLayer.add(token);
+            //token.on('click', event => toggle_arcs(event, info.id));
+            token.on('dragend', () => {
+                this.pushEvent('move_token', {
+                    id: info.id,
+                    position: {
+                        x: token.x(),
+                        y: token.y()
+                    }
+                })
             })
-
-            $(this.el).click(() => {
-                movementable = !movementable;
-                if(movementable) {
-                    $(".draggable-token").css({ backgroundColor: "orange" })
-                } else {
-                    $(".draggable-token").css({ backgroundColor: "#f73b7c" })
-                }
-            });
-
+            stage.batchDraw();
+        },
+        updated() {
+            const info = extractData(this.el);
+            console.log(info)
+            const { stage } = variables;
+            const token = stage.findOne(`#${info.id}`);
+            token.x(info.x);
+            token.y(info.y);
+            stage.batchDraw();
         }
     },
     DiceResult: {

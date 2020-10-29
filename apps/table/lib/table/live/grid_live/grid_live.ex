@@ -26,11 +26,15 @@ defmodule Table.GridLive do
     token = %{
       id: Warehouse.generate_id(),
       name: token_params["name"],
+      type: :npc,
       status: %{
         health: 10,
         mana: 10
       },
-      position: "a0",
+      position: %{
+        x: 0,
+        y: 0
+      },
       moves: 6
     }
     token |> Table.broadcast(:token_created, socket.assigns.table_id)
@@ -39,11 +43,27 @@ defmodule Table.GridLive do
     {:noreply, socket}
   end
 
+  def handle_event("move_token", %{"position" => position, "id" => id}, socket) do
+    token =
+      socket.assigns.tokens
+      |> Enum.find(fn map -> map.id == id end)
+      |> Map.put(:position, %{
+        x: position["x"],
+        y: position["y"]
+      })
+
+    token |> Table.broadcast(:token_moved, socket.assigns.table_id)
+    {:noreply, socket}
+  end
+
   @impl true
   def handle_info({:token_created, token}, socket) do
     {:noreply, assign(socket, :tokens, [token | socket.assigns.tokens])}
   end
 
-  # TODO: when click to move the token
-  # move and broadcast to all the new position
+  @impl true
+  def handle_info({:token_moved, token}, socket) do
+    #tokens =  
+    {:noreply, assign(socket, :tokens, [token] -- socket.assigns.tokens)}
+  end
 end

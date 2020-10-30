@@ -63,7 +63,15 @@ defmodule Table.GridLive do
 
   @impl true
   def handle_info({:token_moved, token}, socket) do
-    #tokens =  
-    {:noreply, assign(socket, :tokens, [token] -- socket.assigns.tokens)}
+    
+    tokens = [token | socket.assigns.tokens]
+             |> Enum.filter(fn item -> 
+               Map.get(item, :id) == token.id and Map.get(item, :position) != token.position
+             end)
+    #tokens = [token] -- socket.assigns.tokens
+    #tokens = [token | socket.assigns.tokens]
+             #|> Enum.uniq
+    
+    {:noreply, assign(socket, :tokens, tokens)}
   end
 end

@@ -56,7 +56,6 @@ let Hooks = {
         },
         updated() {
             const info = extractData(this.el);
-            console.log(info)
             const { stage } = variables;
             const token = stage.findOne(`#${info.id}`);
             token.x(info.x);

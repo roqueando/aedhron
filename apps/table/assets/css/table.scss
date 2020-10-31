@@ -1,8 +1,10 @@
-$base-layout: #2E294E;
+$base-layout: #26294A;
 @import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100&display=swap');
 
-$font-title: 'Cedarville Cursive', cursive;
+
+$font-title: 'Lato', sans-serif;
 $font-base: 'Montserrat', sans-serif;
 $border-base-circle: 100%;
 $tag-color: #fdcb6e;
@@ -16,9 +18,29 @@ $d20-bg: #ff6b6b;
 body,html {
     background: $base-layout !important;
 }
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #26294A;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 
 .title {
     font-family: $font-title !important;
+    font-weight: 100;
     color: #eee !important;
 }
 
@@ -169,4 +191,14 @@ div.dice-result.d20 {
 }
 table td {
     vertical-align: middle !important;
+}
+header.modal-card-head, 
+section.modal-card-body,
+footer.modal-card-foot {
+    background-color: #333;
+}
+
+div.modal-card p,
+div.modal-card label{
+   color: #eee;
 }

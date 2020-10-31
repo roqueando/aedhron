@@ -17,7 +17,7 @@ defmodule Table.GridLive do
     socket =
       socket
       |> assign(:table_id, id)
-      |> assign(:page_title, "Lumni @ #{table.name}")
+      |> assign(:page_title, "ædhron @ #{table.name}")
       |> assign(:table_name, table.name)
     {:noreply, socket}
   end
@@ -64,14 +64,9 @@ defmodule Table.GridLive do
   @impl true
   def handle_info({:token_moved, token}, socket) do
     
-    tokens = [token | socket.assigns.tokens]
-             |> Enum.filter(fn item -> 
-               Map.get(item, :id) == token.id and Map.get(item, :position) != token.position
-             end)
-    #tokens = [token] -- socket.assigns.tokens
-    #tokens = [token | socket.assigns.tokens]
-             #|> Enum.uniq
-    
-    {:noreply, assign(socket, :tokens, tokens)}
+    tokens = socket.assigns.tokens
+             |> Enum.filter(fn map -> map.id != token.id end)
+
+    {:noreply, assign(socket, :tokens, [token | tokens])}
   end
 end

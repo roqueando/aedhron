@@ -3,15 +3,16 @@
   id: "modal-create"
 %>
 <div class="ui left aligned container">
-  <h1 class="ui header title">lumni.table</h1>
-  <div class="ui buttons">
-    <button class="ui blue button" phx-click="open_modal" >create a table</button>
-    <button class="ui purple button">join a table</button>
+  <div style="margin: 0 auto">
+    <img src="<%= Routes.static_path(@socket, "/images/aedhron.png")%>" 
+         alt=""
+         style="display: block; margin: 0 auto"/>
   </div>
+  <button class="button is-fullwidth is-dark" phx-click="open_modal" >create a table</button>
   <br></br>
   <div class="ui container text">
     <p class="ui inverted">
-    The Lumni.Table is a module application to enjoy fun into a Tabletop RPG games.
+    The aedhron table is a module application to enjoy fun into a Tabletop RPG games.
     </p>
     <br></br>
 

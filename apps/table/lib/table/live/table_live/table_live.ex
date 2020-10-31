@@ -2,6 +2,9 @@ defmodule Table.TableLive do
   use Table, :live_view
 
   def mount(_params, _session, socket) do
+    socket = 
+      socket
+      |> assign(:page_title, "ædhron")
     {:ok, socket}
   end
 

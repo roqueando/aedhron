@@ -16,7 +16,7 @@ defmodule Table.Components.Dice do
     dice = String.to_integer(dice)
     result = Enum.random(1..dice)
 
-    roll = %Roll{ dice: "d#{dice}", result: result }
+    roll = %Roll{ dice: "#{dice}", result: result }
 
     Table.broadcast(roll, :dice_result, table_id)
 

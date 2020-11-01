@@ -20,7 +20,7 @@
     <div class="dropdown-menu" id="dropdown-menu4" role="menu">
       <div class="dropdown-content" style="width: 9vh; padding: 5px;">
         <%= for dice <- [4, 6, 8, 10, 12, 20] do %>
-          <%= live_component @socket, Table.Components.Dice, id: component_id(), dice_var: dice %>
+          <%= live_component @socket, Table.Components.Dice, id: component_id(), dice_var: dice, table_id: @table_id %>
         <% end %>
       </div>
     </div>

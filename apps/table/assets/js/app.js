@@ -17,6 +17,8 @@ import {Socket} from "phoenix"
 import LiveSocket from "phoenix_live_view"
 import {extractData, initGrid, updateStageAndLayer, variables} from "./grid";
 import {drawToken, shadow, toggle_arcs} from './token'
+import {extractDataDice, drawDice} from './dice'
+import {toast} from 'bulma-toast';
 //import {initGrid, extractData, drawToken} from './grid';
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
@@ -65,9 +67,12 @@ let Hooks = {
     },
     DiceResult: {
         updated() {
-            setTimeout(() => {
-                $(".dice-result").css({display: 'none'});
-            }, 4000)
+            const { stage, gridLayer } = variables;
+            const data = extractDataDice(this.el);
+            toast({
+                message: `rolled d${data.dice} and result ${data.result}!`,
+                type: data.result == 1 ? 'is-danger' : 'is-warning',
+            });
         }
     }
 }

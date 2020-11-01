@@ -69,4 +69,13 @@ defmodule Table.GridLive do
 
     {:noreply, assign(socket, :tokens, [token | tokens])}
   end
+
+  @impl true
+  def handle_info({:dice_result, roll}, socket) do
+    send_update Table.Components.DiceResult, 
+      id: "dice_result",
+      dice: roll.dice,
+      result: roll.result
+    {:noreply, socket}
+  end
 end

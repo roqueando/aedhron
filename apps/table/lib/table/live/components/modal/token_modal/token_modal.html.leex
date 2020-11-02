@@ -1,0 +1,14 @@
+<header class="modal-card-head">
+  <p class="modal-card-title">Create a token</p> 
+  <button class="delete" aria-label="close" phx-click="close_modal"></button>
+</header>
+
+<section class="modal-card-body">
+  <%= form = form_for :token, "#", phx_submit: "create_token" %>
+  <label>The token name</label>
+  <%= text_input form, :name, class: "input", placeholder: "The token name"%> 
+  <br></br>
+  <%= submit "Save", phx_disable_with: "Saving token...", class: 'button is-fullwidth is-dark'%> 
+</section>
+<footer class="modal-card-foot">
+</footer>

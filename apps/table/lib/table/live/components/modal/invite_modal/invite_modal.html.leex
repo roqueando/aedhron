@@ -1,0 +1,20 @@
+<header class="modal-card-head">
+  <p class="modal-card-title">Invite more <%= @max_uses%> players!</p> 
+  <button class="delete" aria-label="close" phx-click="close_modal"></button>
+</header>
+
+<section class="modal-card-body" phx-hook="InviteModalHook" data-invites="<%= @max_uses %>">
+  <%= form = form_for :invites, "#", phx_submit: "invite_players" %>
+  <%= email_input form, :email, class: "input", placeholder: "Player email"%> 
+  <br></br>
+  <button class="button is-small is-success" type="button">
+    <span class="icon"> 
+      <i class="fas fa-plus"></i>
+    </span>
+
+  </button>
+  <br></br>
+  <%= submit "Invite", phx_disable_with: "Calling adventurers!", class: 'button is-fullwidth is-dark'%> 
+</section>
+<footer class="modal-card-foot">
+</footer>

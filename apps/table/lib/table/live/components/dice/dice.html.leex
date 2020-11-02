@@ -1,12 +1,12 @@
 <div style="text-align: center">
   <a 
-     class="dropdown-item dice d<%= @dice_var %>" 
+     class="dropdown-item dice  d<%= @dice_var %>" 
      phx-click="roll" 
      phx-value-dice="<%= @dice_var %>"
      phx-value-table_id="<%= @table_id %>"
      phx-target="<%= @myself %>"
   >
-    <span class="icon">
+    <span class="icon dice-icon">
       <img 
           src="<%= Routes.static_path(@socket, "/images/d#{@dice_var}.svg")%>" 
           alt="<%= @dice_var %>"

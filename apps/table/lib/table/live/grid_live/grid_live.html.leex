@@ -1,6 +1,7 @@
 <%= live_component @socket, 
   Table.Components.Modal, 
-  id: "modal-create"
+  id: "modal-create",
+  max_players: @max_players
 %>
 <%= live_component @socket, Table.Components.DiceResult, id: "dice_result" %>
 <header 
@@ -8,22 +9,28 @@
   phx-hook="GridLive"
   id="grid_live"
   >
-  <button class="button is-small" phx-click="open_add_token_modal">
+  <button class="button is-small is-warning" phx-click="open_add_token_modal">
     <i class="fas fa-street-view"></i>
   </button>
   <div class="dropdown is-hoverable">
     <div class="dropdown-trigger">
-      <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu4">
+      <button class="button is-small is-danger" aria-haspopup="true" aria-controls="dropdown-menu4">
         <i class="fas fa-dice-d20"></i>
       </button>
     </div>
     <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-      <div class="dropdown-content" style="width: 9vh; padding: 5px;">
+      <div class="dropdown-content" style="width: 9vh; padding: 5px; background-color: #333">
         <%= for dice <- [4, 6, 8, 10, 12, 20] do %>
           <%= live_component @socket, Table.Components.Dice, id: component_id(), dice_var: dice, table_id: @table_id %>
         <% end %>
       </div>
     </div>
+  </div>
+  
+  <button class="button is-small" phx-click="open_invite_modal" 
+    style="background-color: #180c30; border: none">
+    <i class="far fa-paper-plane" style="color: #eee"></i>
+  </button>
 </header>
 
 <%= for token <- @tokens do %>

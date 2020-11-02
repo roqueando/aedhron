@@ -1,0 +1,25 @@
+<header class="modal-card-head">
+  <p class="modal-card-title">Create a table!</p> 
+  <button class="delete" aria-label="close" phx-click="close_modal"></button>
+</header>
+
+<section class="modal-card-body">
+  <%= form = form_for :table, "#", phx_submit: "create_table" %>
+  <label>The table name</label>
+  <%= text_input form, :name, class: "input", placeholder: "Table name"%> 
+
+  <br></br>
+  <label>The maximum of adventurers</label>
+  <%= number_input form, :max_players, class: "input", placeholder: "Maximum of players"%> 
+  <br></br>
+  <%= submit "Create", phx_disable_with: "Creating table...", class: 'button is-fullwidth is-dark'%> 
+</section>
+
+<footer class="modal-card-foot">
+  <%= unless is_nil(@link) do %>
+    <div class="tags has-addons">
+      <span class="tag is-success">Your table room was created!</span>
+      <a class="tag is-info" href="<%= @link %>"> <%= @room_name%></a>
+    </div>
+  <% end %>
+</footer>

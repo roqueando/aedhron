@@ -80,6 +80,11 @@ defmodule Table do
         send_update Table.Components.Modal, id: "modal-create", state: :open, type: :add_token
         {:noreply, socket}
       end
+
+      def handle_event("open_invite_modal", _value, socket) do
+        send_update Table.Components.Modal, id: "modal-create", state: :open, type: :invite
+        {:noreply, socket}
+      end
       
       def component_id, do: Warehouse.generate_id
       unquote(view_helpers())

@@ -67,12 +67,19 @@ let Hooks = {
     },
     DiceResult: {
         updated() {
-            const { stage, gridLayer } = variables;
             const data = extractDataDice(this.el);
             toast({
                 message: `rolled d${data.dice} and result ${data.result}!`,
                 type: data.result == 1 ? 'is-danger' : 'is-warning',
             });
+        }
+    },
+    InviteModalHook: {
+        mounted() {
+            const invites = parseInt(this.el.getAttribute('data-invites'));
+            //TODO: create a button to open a new input
+            //with the max of invites
+            
         }
     }
 }

@@ -17,6 +17,7 @@ defmodule Table.GridLive do
     socket =
       socket
       |> assign(:table_id, id)
+      |> assign(:max_players, table.max_players)
       |> assign(:page_title, "ædhron @ #{table.name}")
       |> assign(:table_name, table.name)
     {:noreply, socket}

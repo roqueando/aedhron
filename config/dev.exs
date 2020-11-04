@@ -55,3 +55,8 @@ config :table, Table.Endpoint,
       ~r"lib/table/templates/.*(eex)$"
     ]
   ]
+config :hermes, Hermes.Mailer,
+  adapter: Swoosh.Adapters.Local
+config :swoosh, serve_mailbox: true, preview_port: 4001
+
+

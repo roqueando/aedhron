@@ -27,7 +27,8 @@ defmodule Hermes.MixProject do
   defp deps do
     [
       {:swoosh, "~> 1.0"},
-      {:gen_smtp, "~> 0.13"}
+      {:gen_smtp, "~> 0.13"},
+      {:hackney, "~> 1.9"}
     ]
   end
 end

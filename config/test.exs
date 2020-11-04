@@ -5,3 +5,5 @@ use Mix.Config
 config :table, Table.Endpoint,
   http: [port: 4002],
   server: false
+config :hermes, Hermes.Mailer,
+  adapter: Bamboo.TestAdapter

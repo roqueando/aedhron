@@ -3,18 +3,16 @@
   <button class="delete" aria-label="close" phx-click="close_modal"></button>
 </header>
 
-<section class="modal-card-body" phx-hook="InviteModalHook" data-invites="<%= @max_uses %>">
-  <%= form = form_for :invites, "#", phx_submit: "invite_players" %>
-  <%= email_input form, :email, class: "input", placeholder: "Player email"%> 
-  <br></br>
-  <button class="button is-small is-success" type="button">
-    <span class="icon"> 
-      <i class="fas fa-plus"></i>
-    </span>
-
-  </button>
-  <br></br>
-  <%= submit "Invite", phx_disable_with: "Calling adventurers!", class: 'button is-fullwidth is-dark'%> 
+<section class="modal-card-body" id="invitations"  data-invites="<%= @max_uses %>">
+  <%= form = form_for :invite, "#", phx_submit: "invite_players", phx_target: @myself %>
+  <div class="columns">
+    <div class="column is-four-fifths">
+      <%= email_input form, :email, class: "input", placeholder: "the player email"%> 
+    </div> 
+    <div class="column">
+      <%= submit "invite", phx_disable_with: "inviting", class: 'button is-info'%>
+    </div>
+  </div>
 </section>
 <footer class="modal-card-foot">
 </footer>

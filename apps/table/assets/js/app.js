@@ -76,9 +76,6 @@ let Hooks = {
     },
     InviteModalHook: {
         mounted() {
-            const invites = parseInt(this.el.getAttribute('data-invites'));
-            //TODO: create a button to open a new input
-            //with the max of invites
             
         }
     }

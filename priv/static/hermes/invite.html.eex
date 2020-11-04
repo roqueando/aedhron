@@ -1,0 +1,4 @@
+<h1>you're summoned to an adventure in <%= table_name %></h1>
+<p>to access
+  <a href="<%= link %>">click here</a>
+</p>

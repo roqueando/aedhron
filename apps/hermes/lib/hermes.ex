@@ -1,18 +1,3 @@
 defmodule Hermes do
-  @moduledoc """
-  Documentation for `Hermes`.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Hermes.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
+  def get_mail(file), do: Path.expand("./priv/static/hermes/#{file}.eex")
 end

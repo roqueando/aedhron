@@ -48,7 +48,8 @@ defmodule Table.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:warehouse, in_umbrella: true},
-      {:hermes, in_umbrella: true}
+      {:hermes, in_umbrella: true},
+      {:guard, in_umbrella: true}
     ]
   end
 

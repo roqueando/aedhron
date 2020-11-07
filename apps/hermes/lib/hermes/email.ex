@@ -20,4 +20,20 @@ defmodule Hermes.Email do
       |> Hermes.Mailer.deliver
     end)
   end
+
+  def authenticate_mail(email, key) do
+    mail = 
+      new()
+      |> to(email)
+      |> from({"aedhron team", @from}) #change that when create the aedhron domain
+      |> subject("Gate Authorization Requested")
+      |> html_body(EEx.eval_file(Hermes.get_mail("authorization.html"), [
+        link: "http://localhost:4000/g/#{key}"
+      ]))
+
+    Task.start(fn -> 
+      mail
+      |> Hermes.Mailer.deliver
+    end)
+  end
 end

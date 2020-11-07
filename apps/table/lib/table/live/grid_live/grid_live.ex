@@ -1,11 +1,15 @@
 defmodule Table.GridLive do
   use Table, :live_view
 
+  alias Guard.Key
+
   @impl true
   def mount(_params, _session, socket) do
     socket = 
       socket
       |> assign(:players, [])
+      |> assign(:dropdown_auth, false)
+      |> assign(:auth_request, false)
       |> assign(:tokens, [])
     {:ok, socket}
   end
@@ -56,6 +60,24 @@ defmodule Table.GridLive do
     token |> Table.broadcast(:token_moved, socket.assigns.table_id)
     {:noreply, socket}
   end
+  
+
+  def handle_event("authenticate", %{"auth" => auth}, socket) do
+    {:ok, key} = Key.generate_authenticate_key(auth["email"])
+    Hermes.Email.authenticate_mail(auth["email"], key)
+    socket = 
+      socket
+      |> assign(dropdown_auth: false)
+      |> assign(auth_request: true)
+    {:noreply, socket}
+  end
+
+  def handle_event("toggle_auth_down", _params, socket) do
+    socket =
+      socket
+      |> assign(dropdown_auth: !socket.assigns.dropdown_auth)
+    {:noreply, socket}
+  end
 
   @impl true
   def handle_info({:token_created, token}, socket) do
@@ -77,6 +99,12 @@ defmodule Table.GridLive do
       id: "dice_result",
       dice: roll.dice,
       result: roll.result
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:update_session, session}, socket) do
+    IO.inspect(session)
     {:noreply, socket}
   end
 end

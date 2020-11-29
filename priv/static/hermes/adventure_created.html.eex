@@ -8,11 +8,11 @@
               background-color: #cda2ab
               ">
       <h1 class="title is-3" style="text-align: center; color: #eee">
-        You're summoned to an adventure in <%= table_name %>
+        Your adventure <%= table_name %> was created!
       </h1>
     </div>
     <p style="text-align: center; padding: 15px">
-      <a href="<%= link %>" target="_blank" class="button is-warning">Join the adventure!</a>
+      <a href="<%= link %>" target="_blank" class="button is-warning">Start the adventure!</a>
     </p>
   </div>
 </div>

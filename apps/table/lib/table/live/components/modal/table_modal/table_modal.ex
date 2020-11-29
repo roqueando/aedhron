@@ -8,7 +8,6 @@ defmodule Table.Components.Modal.TableModal do
       |> assign(state: :closed)
       |> assign(room_name: nil)
       |> assign(type: :create) # availables types: :create, :join, :add_token
-      |> assign(link: nil)
     {:ok, socket}
   end
 

@@ -1,0 +1,74 @@
+<header 
+  style="padding: 3px; background-color: #333; color: #eee; "
+  phx-hook="GridLive"
+  id="grid_live"
+  >
+  <div class="dropdown <%= if @dropdown_auth, do: "is-active", else: "" %>">
+  <div class="dropdown-trigger">
+    <button 
+       class="button is-small <%= if @key, do: "is-success", else: "is-info" %> <%= if @auth_request, do: "is-loading", else: "" %>" 
+       phx-click="toggle_auth_down" 
+       <%= if @auth_request, do: "disabled", else: ""%>
+       >
+       <span 
+       class="icon is-small " >
+       <i class="fas <%= if @key, do: "fa-lock", else: "fa-unlock"%>" aria-hidden="true"></i>
+       </span>
+    </button>
+  </div>
+  <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+    <div class="dropdown-content" style="background-color: #180c30">
+      <%= unless @key do %>
+        <div class="dropdown-item">
+          <h1 class="title is-4">Authorize</h1>
+          <%= form = form_for :auth, "#", phx_submit: "authenticate" %>
+          <%= email_input form, :email, class: "input is-small", placeholder: "your email"%> 
+          <br></br>
+          <%= submit "enter", phx_disable_with: "authenticating", class: 'button is-fullwidth is-small is-info'%>
+        </div>
+        <%= else %>
+        <div class="dropdown-item">
+          <h1 class="title is-4">Welcome Adventurer!</h1>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  </div>
+
+  <button class="button is-small is-warning" phx-click="open_add_token_modal">
+    <i class="fas fa-street-view"></i>
+  </button>
+  <div class="dropdown is-hoverable">
+    <div class="dropdown-trigger">
+      <button class="button is-small is-danger" aria-haspopup="true" aria-controls="dropdown-menu4">
+        <i class="fas fa-dice-d20"></i>
+      </button>
+    </div>
+    <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+      <div class="dropdown-content" style="width: 9vh; padding: 5px; background-color: #333">
+        <%= for dice <- [4, 6, 8, 10, 12, 20] do %>
+          <%= live_component @socket, Table.Components.Dice, id: component_id(), dice_var: dice, table_id: @table_id %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <button class="button is-small" phx-click="open_invite_modal" 
+                                  style="background-color: #180c30; border: none">
+    <i class="far fa-paper-plane" style="color: #eee"></i>
+  </button>
+</header>
+
+<%= for token <- @tokens do %>
+  <%= live_component @socket, Table.Components.Token, id: component_id(), token: token %>
+<% end %>
+
+<div id="grid" phx-update="ignore">
+
+</div>
+
+<script charset="utf-8">
+  $("#auth-button").click(() => {
+      $("#auth-dropdown").toggleClass("is-active");
+  })
+</script>

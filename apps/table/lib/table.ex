@@ -127,4 +127,13 @@ defmodule Table do
     Phoenix.PubSub.broadcast(Table.PubSub, "tables:" <> table_id, {event, resource})
     resource
   end
+
+  def subscribe_app do
+    Phoenix.PubSub.subscribe(Table.PubSub, "aedhron")
+  end
+
+  def update_session(resource, event) do
+    Phoenix.PubSub.broadcast(Table.PubSub, "aedhron", {event, resource})
+    resource
+  end
 end

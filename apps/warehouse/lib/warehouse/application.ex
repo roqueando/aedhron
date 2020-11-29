@@ -10,6 +10,7 @@ defmodule Warehouse.Application do
     persist_base(nodes)
 
     Memento.Table.create(Warehouse.Table, disc_copies: nodes)
+    Memento.Table.create(Warehouse.Invite, disc_copies: nodes)
     children = [
       # Starts a worker by calling: Warehouse.Worker.start_link(arg)
       # {Warehouse.Worker, arg}

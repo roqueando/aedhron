@@ -19,7 +19,8 @@ defmodule Table.Router do
 
     live "/", TableLive
     live "/t/:id", GridLive
-    live "/g/:key", AuthLive
+    live "/t/:id/k/:key", GridLive
+    live "/t/:id/i/:invite", GridLive
   end
 
   if Mix.env() in [:dev, :test] do

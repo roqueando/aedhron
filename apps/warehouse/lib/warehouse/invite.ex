@@ -1,12 +1,13 @@
 defmodule Warehouse.Invite do
-  use Memento.Table, attributes: [:id, :key, :max_uses, :reference]
+  use Memento.Table, attributes: [:id, :key, :reference]
+
   alias Memento.Query
+  @m __MODULE__
 
   def create(invite_params) do
     Memento.transaction! fn ->
-      Query.write(%__MODULE__{
+      Query.write(%@m{
         key: invite_params["key"], 
-        max_uses: invite_params["max_uses"], 
         id: UUID.uuid4(),
         reference: invite_params["reference"]
       })
@@ -14,14 +15,20 @@ defmodule Warehouse.Invite do
   end
 
   def all do
-    Memento.transaction! fn ->
-      Query.all(__MODULE__)
-    end
+    Memento.transaction! fn -> Query.all(@m) end
   end
 
   def get(id) do
+    Memento.transaction! fn -> Query.read(@m, id) end
+  end
+
+  def get_by_table(table_id, key) do
     Memento.transaction! fn ->
-      Query.read(__MODULE__, id)
+      Query.select(@m, [
+        {:==, :reference, table_id},
+        {:==, :key, key}
+      ])
+      |> List.first
     end
   end
 

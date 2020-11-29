@@ -5,25 +5,42 @@ defmodule Table.GridLive do
 
   @impl true
   def mount(_params, _session, socket) do
+    Table.subscribe_app()
     socket = 
       socket
       |> assign(:players, [])
       |> assign(:dropdown_auth, false)
       |> assign(:auth_request, false)
       |> assign(:tokens, [])
+      |> assign(:key, nil)
     {:ok, socket}
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _uri, socket) do
+  def handle_params(%{"id" => id, "key" => key}, _uri, socket) do
     if connected?(socket), do: Table.subscribe(id)
     table = Warehouse.Table.get(id)
     socket =
       socket
       |> assign(:table_id, id)
-      |> assign(:max_players, table.max_players)
+      |> assign(:max_players, table.invites)
       |> assign(:page_title, "ædhron @ #{table.name}")
       |> assign(:table_name, table.name)
+      |> assign(:key, key)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_params(%{"id" => id, "invite" => invite}, _uri, socket) do
+    if connected?(socket), do: Table.subscribe(id)
+    table = Warehouse.Table.get(id)
+    socket =
+      socket
+      |> assign(:table_id, id)
+      |> assign(:max_players, table.invites)
+      |> assign(:page_title, "ædhron @ #{table.name}")
+      |> assign(:table_name, table.name)
+      |> assign(:invite, invite)
     {:noreply, socket}
   end
 
@@ -104,7 +121,18 @@ defmodule Table.GridLive do
 
   @impl true
   def handle_info({:update_session, session}, socket) do
-    IO.inspect(session)
+    socket =
+      socket
+      |> assign(key: session["auth_key"])
+      |> assign(auth_request: false)
     {:noreply, socket}
+  end
+
+  def validate_key(key, table_id) do
+    Key.validate_auth_key(key, table_id)
+  end
+
+  def validate_invite(invite, table_id) do
+    Key.validate_invite_key(invite, table_id)
   end
 end

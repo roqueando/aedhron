@@ -9,6 +9,7 @@ defmodule Table.Components.Modal do
       |> assign(room_name: nil)
       |> assign(type: :create) # availables types: :create, :join, :add_token
       |> assign(link: nil)
+      |> assign(status: :not_sent)
     {:ok, socket}
   end
 

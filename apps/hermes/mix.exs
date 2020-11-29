@@ -28,7 +28,8 @@ defmodule Hermes.MixProject do
     [
       {:swoosh, "~> 1.0"},
       {:gen_smtp, "~> 0.13"},
-      {:hackney, "~> 1.9"}
+      {:hackney, "~> 1.9"},
+      {:warehouse, in_umbrella: true}
     ]
   end
 end

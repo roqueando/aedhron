@@ -22,6 +22,7 @@ import {toast} from 'bulma-toast';
 //import {initGrid, extractData, drawToken} from './grid';
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+let gate_key = $("aedhron-gate").attr('data-key')
 
 let Hooks = {
     GridLive: {

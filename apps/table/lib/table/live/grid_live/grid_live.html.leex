@@ -17,13 +17,13 @@
       <div class="dropdown <%= if @dropdown_auth, do: "is-active", else: "" %>">
       <div class="dropdown-trigger">
         <button 
-           class="button is-small <%= if @key, do: "is-success", else: "is-info" %> <%= if @auth_request, do: "is-loading", else: "" %>" 
+           class="button is-small <%= if @key !== nil or @invite !== nil, do: "is-success", else: "is-info" %> <%= if @auth_request, do: "is-loading", else: "" %>" 
            phx-click="toggle_auth_down" 
            <%= if @auth_request, do: "disabled", else: ""%>
            >
            <span 
            class="icon is-small " >
-           <i class="fas <%= if @key, do: "fa-lock", else: "fa-unlock"%>" aria-hidden="true"></i>
+           <i class="fas <%= if @key !== nil or @invite !== nil, do: "fa-lock", else: "fa-unlock"%>" aria-hidden="true"></i>
            </span>
         </button>
       </div>

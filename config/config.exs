@@ -39,6 +39,19 @@ config :phoenix, :json_library, Jason
 config :mnesia,
   dir: '.mnesia/#{Mix.env}/#{node()}'
 
+config :hermes, Hermes.Mailer,
+  adapter: Swoosh.Adapters.SMTP,
+  relay: "smtp.mailtrap.io",
+  port: 2525,
+  username: "0e136d30bce349", # or {:system, "SMTP_USERNAME"}
+  password: "dc3b6897266fc5", # or {:system, "SMTP_PASSWORD"}
+  tls: :if_available, # can be `:always` or `:never`
+  ssl: false, # can be `true`,
+  retries: 1,
+  no_mx_lookups: false, # can be `true`
+  auth: :if_available 
+
+config :joken, default_signer: "secret"
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

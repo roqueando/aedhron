@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+<div style="background-color: #26294a">
+  <div class="container">
+    <div 
+       style="
+              width: 100%; 
+              padding: 15px; 
+              background-color: #cda2ab
+              ">
+      <h1 class="title is-3" style="text-align: center; color: #eee">
+        Your adventure <%= table_name %> was created!
+      </h1>
+    </div>
+    <p style="text-align: center; padding: 15px">
+      <a href="<%= link %>" target="_blank" class="button is-warning">Start the adventure!</a>
+    </p>
+  </div>
+</div>

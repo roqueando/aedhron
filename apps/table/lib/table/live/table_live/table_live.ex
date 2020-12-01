@@ -1,6 +1,8 @@
 defmodule Table.TableLive do
   use Table, :live_view
 
+  alias Guard.Key
+
   def mount(_params, _session, socket) do
     socket = 
       socket
@@ -9,12 +11,11 @@ defmodule Table.TableLive do
   end
 
   def handle_event("create_table", %{"table" => table_params}, socket) do
-    table = Warehouse.Table.create(table_params)
-    url = "http://localhost:4000/t/#{table.id}"
-    send_update Table.Components.Modal, 
-      id: "modal-create", 
-      link: url, 
-      room_name: "#{table.name}@#{table.id}"
+    {:ok, key} = Key.generate_authenticate_key(table_params["email"])
+
+    Hermes.Email.create_adventure(table_params, key)
+
+    send_update Table.Components.Modal, id: "modal-create", status: :sent
 
     {:noreply, socket}
   end

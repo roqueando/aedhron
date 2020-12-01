@@ -22,6 +22,7 @@ import {toast} from 'bulma-toast';
 //import {initGrid, extractData, drawToken} from './grid';
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+let gate_key = $("aedhron-gate").attr('data-key')
 
 let Hooks = {
     GridLive: {
@@ -67,12 +68,16 @@ let Hooks = {
     },
     DiceResult: {
         updated() {
-            const { stage, gridLayer } = variables;
             const data = extractDataDice(this.el);
             toast({
                 message: `rolled d${data.dice} and result ${data.result}!`,
                 type: data.result == 1 ? 'is-danger' : 'is-warning',
             });
+        }
+    },
+    InviteModalHook: {
+        mounted() {
+            
         }
     }
 }

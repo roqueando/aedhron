@@ -1,0 +1,30 @@
+<header class="modal-card-head">
+  <p class="modal-card-title">Create an adventure!</p> 
+  <button class="delete" aria-label="close" phx-click="close_modal"></button>
+</header>
+
+<section class="modal-card-body">
+  <%= form = form_for :table, "#", phx_submit: "create_table" %>
+  <div class="columns">
+    <div class="column">
+      <label>The adventure name</label>
+      <%= text_input form, :name, class: "input", placeholder: "Ex: Heroes of Burnsteel"%> 
+    </div> 
+    <div class="column">
+      <label>The maximum of adventurers</label>
+      <%= number_input form, :max_players, class: "input", placeholder: "maximum is 5", max: 5%> 
+    </div>
+  </div>
+  <label>Your email <i> (is necessary to make you own adventure)</i></label>
+  <%= email_input form, :email, class: "input", placeholder: "example@ex.com"%> 
+  <br></br>
+  <%= submit "Create", phx_disable_with: "Creating table...", class: 'button is-fullwidth is-dark'%> 
+</section>
+
+<footer class="modal-card-foot">
+  <%= if @status !== :not_sent do %>
+    <div class="tags has-addons">
+      <span class="tag is-success">Your adventure was created, check your email!</span>
+    </div>
+  <% end %>
+</footer>

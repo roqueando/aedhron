@@ -136,6 +136,15 @@ div.ui.modal.create>div.actions {
     border-radius: 3px;
 }
 
+a.dropdown-item {
+  padding-right: 1rem !important;
+}
+
+span.icon.dice-icon {
+  justify-content: start !important;
+  width: 1rem !important;
+}
+
 a.dropdown-item.d4 { background-color: $d4-bg; }
 a.dropdown-item.d6 { background-color: $d6-bg; }
 a.dropdown-item.d8 { background-color: $d8-bg; }

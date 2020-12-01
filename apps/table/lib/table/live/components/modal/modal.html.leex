@@ -1,48 +1,26 @@
 <div class="modal <%= if @state == :open, do: "is-active", else: nil %>">
   <div class="modal-background"></div>
   <div class="modal-card">
-    <%= if @type == :create do %>
-
-      <header class="modal-card-head">
-        <p class="modal-card-title">Create a table!</p> 
-        <button class="delete" aria-label="close" phx-click="close_modal"></button>
-      </header>
-    
-      <section class="modal-card-body">
-        <%= form = form_for :table, "#", phx_submit: "create_table" %>
-        <label>The table name</label>
-        <%= text_input form, :name, class: "input", placeholder: "Table name"%> 
-
-        <br></br>
-        <label>The maximum of adventurers</label>
-        <%= number_input form, :max_players, class: "input", placeholder: "Maximum of players"%> 
-        <br></br>
-        <%= submit "Create", phx_disable_with: "Creating table...", class: 'button is-fullwidth is-dark'%> 
-      </section>
-
-      <footer class="modal-card-foot">
-        <%= unless is_nil(@link) do %>
-          <div class="tags has-addons">
-            <span class="tag is-success">Your table room was created!</span>
-            <a class="tag is-info" href="<%= @link %>"> <%= @room_name%></a>
-          </div>
-        <% end %>
-      </footer>
-    <% else %>
-      <header class="modal-card-head">
-        <p class="modal-card-title">Create a token</p> 
-        <button class="delete" aria-label="close" phx-click="close_modal"></button>
-      </header>
-
-      <section class="modal-card-body">
-        <%= form = form_for :token, "#", phx_submit: "create_token" %>
-        <label>The token name</label>
-        <%= text_input form, :name, class: "input", placeholder: "The token name"%> 
-        <br></br>
-        <%= submit "Save", phx_disable_with: "Saving token...", class: 'button is-fullwidth is-dark'%> 
-      </section>
-      <footer class="modal-card-foot">
-      </footer>
-  <%= end %>
+    <%= cond do%>
+      <%= @type == :create -> %>
+        <%= live_component @socket, 
+          Table.Components.Modal.TableModal, 
+          id: "modal_table",
+          link: @link,
+          status: @status,
+          room_name: @room_name
+        %>
+      <% @type == :add_token ->%>
+        <%= live_component @socket, 
+          Table.Components.Modal.TokenModal, 
+          id: "modal_token" %>
+      <% @type == :invite ->%>
+        <%= live_component @socket, 
+          Table.Components.Modal.InviteModal, 
+          id: "modal_share",
+          table_name: @table_name,
+          table_id: @table_id,
+          max_uses: @max_players %>
+    <% end %>
   </div>
 </div>

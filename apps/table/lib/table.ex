@@ -80,6 +80,11 @@ defmodule Table do
         send_update Table.Components.Modal, id: "modal-create", state: :open, type: :add_token
         {:noreply, socket}
       end
+
+      def handle_event("open_invite_modal", _value, socket) do
+        send_update Table.Components.Modal, id: "modal-create", state: :open, type: :invite
+        {:noreply, socket}
+      end
       
       def component_id, do: Warehouse.generate_id
       unquote(view_helpers())
@@ -120,6 +125,15 @@ defmodule Table do
 
   def broadcast(resource, event, table_id) do
     Phoenix.PubSub.broadcast(Table.PubSub, "tables:" <> table_id, {event, resource})
+    resource
+  end
+
+  def subscribe_app do
+    Phoenix.PubSub.subscribe(Table.PubSub, "aedhron")
+  end
+
+  def update_session(resource, event) do
+    Phoenix.PubSub.broadcast(Table.PubSub, "aedhron", {event, resource})
     resource
   end
 end

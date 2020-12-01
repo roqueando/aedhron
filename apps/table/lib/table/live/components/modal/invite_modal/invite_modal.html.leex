@@ -1,0 +1,32 @@
+<header class="modal-card-head">
+  <p class="modal-card-title">
+    <%= if @max_used or @max_uses === 0 do %>
+      No more invites!
+      <%= else %>
+      Invite more <%= @max_uses%> players!
+    <% end %>
+  </p> 
+  <button class="delete" aria-label="close" phx-click="close_modal"></button>
+</header>
+
+<section class="modal-card-body" id="invitations"  data-invites="<%= @max_uses %>">
+  <%= form = form_for :invite, "#", phx_submit: "invite_players", phx_target: @myself %>
+  <div class="columns">
+    <div class="column is-four-fifths">
+      <%= email_input form, :email, 
+        class: "input", 
+        placeholder: "the player email",
+        disabled: if @max_used or @max_uses === 0, do: true, else: false
+        %> 
+    </div> 
+    <div class="column">
+      <%= submit "invite", 
+        phx_disable_with: "inviting", 
+        class: 'button is-info',
+        disabled: if @max_used or @max_uses === 0, do: true, else: false
+      %>
+    </div>
+  </div>
+</section>
+<footer class="modal-card-foot">
+</footer>

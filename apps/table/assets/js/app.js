@@ -40,7 +40,6 @@ let Hooks = {
         mounted() {
             const { stage, gridLayer, layer } = variables;
             const info = extractData(this.el);
-            console.log(`mounted ${info.id}`);
             const token = drawToken(stage, info) 
 
             //layer.add(shadow);

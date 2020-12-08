@@ -72,14 +72,33 @@ export function drawToken(stage, info) {
         cornerRadius: 5,
     });
 
+
     arc_token_health.hide();
     arc_token_mana.hide();
 
     group.add(token);
-    group.add(name_token);
-    group.add(text_name);
-    group.add(arc_token_health);
-    group.add(arc_token_mana);
+    if (info.avatar) {
+        Konva.Image.fromURL(info.avatar, (node) => {
+            node.setAttrs({
+                x: token.x(),
+                y: token.y(),
+                width: token.width(),
+                height: token.height(),
+                cornerRadius: 10,
+            });
+            group.add(node);
+            group.add(name_token);
+            group.add(text_name);
+            group.add(arc_token_health);
+            group.add(arc_token_mana);
+            stage.batchDraw();
+        });
+    } else {
+        group.add(name_token);
+        group.add(text_name);
+        group.add(arc_token_health);
+        group.add(arc_token_mana);
+    }
 
 
     group.on('dragstart', () => {

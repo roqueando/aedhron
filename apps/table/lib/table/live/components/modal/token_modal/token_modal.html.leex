@@ -8,6 +8,10 @@
   <label>The token name</label>
   <%= text_input form, :name, class: "input", placeholder: "The token name"%> 
   <br></br>
+
+  <label>The image</label>
+  <%= text_input form, :image, class: "input", placeholder: "The token image URL"%> 
+  <br></br>
   <%= submit "Save", phx_disable_with: "Saving token...", class: 'button is-fullwidth is-dark'%> 
 </section>
 <footer class="modal-card-foot">

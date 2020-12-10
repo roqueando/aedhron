@@ -84,7 +84,6 @@
   })
     </script>
   <% is_nil(@key) or is_nil(@invite) -> %>
-    <%= inspect(validate_invite(@invite, @table_id))%>
     <div class="ui left aligned container">
       <div style="margin: 0 auto">
         <img src="<%= Routes.static_path(@socket, "/images/aedhron.png")%>" 

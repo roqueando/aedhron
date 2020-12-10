@@ -13,6 +13,7 @@ defmodule Table.GridLive do
       |> assign(:auth_request, false)
       |> assign(:tokens, [])
       |> assign(:key, nil)
+      |> assign(:invite, nil)
     {:ok, socket}
   end
 

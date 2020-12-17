@@ -13,25 +13,6 @@ export const shadow = new Konva.Rect({
 });
 
 
-let arc_token_health = new Konva.Arc({
-    x: block * 3.65,
-    y: block * 3.50,
-    innerRadius: 40,
-    outerRadius: 50,
-    angle: 90,
-    fill: '#ff7675',
-    rotation: -45
-})
-
-let arc_token_mana = new Konva.Arc({
-    x: block * 3.40,
-    y: block * 3.50,
-    innerRadius: 40,
-    outerRadius: 50,
-    angle: 90,
-    fill: '#a29bfe',
-    rotation: 135
-})
 export function drawToken(stage, info) {
     let group = new Konva.Group({
         x: info.x,
@@ -52,6 +33,23 @@ export function drawToken(stage, info) {
         cornerRadius: 10,
     });
 
+    let token_health = new Konva.Rect({
+        x: block * 3.10,
+        y: block * 4.10,
+        stroke: '#ff7675',
+        strokeWidth: 8,
+        width: 49,
+        height: .5,
+    })
+
+    let token_mana = new Konva.Rect({
+        x: token_health.x(),
+        y: block * 4.20,
+        stroke: '#a29bfe',
+        strokeWidth: 8,
+        width: token_health.width(),
+        height: token_health.height()
+    })
     let text_name = new Konva.Text({
         x: token.x(),
         y: token.y(),
@@ -72,14 +70,32 @@ export function drawToken(stage, info) {
         cornerRadius: 5,
     });
 
-    arc_token_health.hide();
-    arc_token_mana.hide();
+    token_health.id(`token_health_${info.id}`);
+    token_mana.id(`token_mana_${info.id}`);
 
     group.add(token);
-    group.add(name_token);
-    group.add(text_name);
-    group.add(arc_token_health);
-    group.add(arc_token_mana);
+    if (info.avatar) {
+        Konva.Image.fromURL(info.avatar, (node) => {
+            node.setAttrs({
+                x: token.x(),
+                y: token.y(),
+                width: token.width(),
+                height: token.height(),
+                cornerRadius: 10,
+            });
+            group.add(node);
+            group.add(name_token);
+            group.add(text_name);
+            group.add(token_health);
+            group.add(token_mana);
+            stage.batchDraw();
+        });
+    } else {
+        group.add(name_token);
+        group.add(text_name);
+        group.add(token_health);
+        group.add(token_mana);
+    }
 
 
     group.on('dragstart', () => {
@@ -104,16 +120,4 @@ export function drawToken(stage, info) {
     });
 
     return group;
-}
-
-export function toggle_arcs(event, id) {
-    if(active) {
-        arc_token_health.hide();
-        arc_token_mana.hide();
-        active = false;
-    } else {
-        arc_token_health.show();
-        arc_token_mana.show();
-        active = true;
-    }
 }

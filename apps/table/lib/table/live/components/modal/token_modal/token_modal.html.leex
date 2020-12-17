@@ -5,9 +5,22 @@
 
 <section class="modal-card-body">
   <%= form = form_for :token, "#", phx_submit: "create_token" %>
-  <label>The token name</label>
-  <%= text_input form, :name, class: "input", placeholder: "The token name"%> 
-  <br></br>
+  <div class="columns">
+    <div class="column">
+      <label>The token name</label>
+      <%= text_input form, :name, class: "input", placeholder: "The token name"%> 
+      <br></br>
+      <label>The image</label>
+      <%= text_input form, :image, class: "input", placeholder: "The token image URL", phx_hook: "AvatarPreviewUrl" %> 
+      <br></br>
+    </div>
+    <div class="column">
+      <div style="text-align: center">
+        <img class="avatar_preview" alt="" id="avatar_preview" style="max-height: 30vh; border-radius: 10px"/>
+      </div>
+    </div>
+  </div>
+
   <%= submit "Save", phx_disable_with: "Saving token...", class: 'button is-fullwidth is-dark'%> 
 </section>
 <footer class="modal-card-foot">

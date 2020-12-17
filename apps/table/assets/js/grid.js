@@ -62,6 +62,7 @@ export function extractData(Element) {
   const element = $(Element)[0];
   return {
     id: element.getAttribute('data-token-id'),
+    avatar: element.getAttribute('data-token-avatar'),
     name: element.getAttribute('data-token-name'),
     health: element.getAttribute('data-token-status-health'),
     mana: element.getAttribute('data-token-status-mana'),

@@ -7,6 +7,7 @@ defmodule Table.Components.Token do
       socket
       |> assign(name: nil)
       |> assign(type: :npc) # available: :npc, :monster, :player
+      |> assign(image: nil)
       |> assign(status: %{ health: nil, mana: nil })
       |> assign(position: "a1")
     {:ok, socket}

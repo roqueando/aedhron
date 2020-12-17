@@ -13,6 +13,7 @@ defmodule Table.GridLive do
       |> assign(:auth_request, false)
       |> assign(:tokens, [])
       |> assign(:key, nil)
+      |> assign(:invite, nil)
     {:ok, socket}
   end
 
@@ -57,7 +58,8 @@ defmodule Table.GridLive do
         x: 0,
         y: 0
       },
-      moves: 6
+      moves: 6,
+      avatar: token_params["image"]
     }
     token |> Table.broadcast(:token_created, socket.assigns.table_id)
 
@@ -78,17 +80,6 @@ defmodule Table.GridLive do
     {:noreply, socket}
   end
   
-
-  def handle_event("authenticate", %{"auth" => auth}, socket) do
-    {:ok, key} = Key.generate_authenticate_key(auth["email"])
-    Hermes.Email.authenticate_mail(auth["email"], key)
-    socket = 
-      socket
-      |> assign(dropdown_auth: false)
-      |> assign(auth_request: true)
-    {:noreply, socket}
-  end
-
   def handle_event("toggle_auth_down", _params, socket) do
     socket =
       socket

@@ -1,4 +1,4 @@
-// We need to import the CSS so that webpack will load it.
+// We need to import the CSSso that webpack will load it.
 // The MiniCssExtractPlugin is used to separate it out into
 // its own CSS file.
 import "../css/table.scss"
@@ -15,14 +15,23 @@ import "../css/table.scss"
 import "phoenix_html"
 import {Socket} from "phoenix"
 import LiveSocket from "phoenix_live_view"
-import {extractData, initGrid, updateStageAndLayer, variables} from "./grid";
-import {drawToken, shadow, toggle_arcs} from './token'
-import {extractDataDice, drawDice} from './dice'
-import {toast} from 'bulma-toast';
+import {
+    extractData, 
+    initGrid, 
+    updateStageAndLayer, 
+    variables
+} from "./grid";
+
+import {
+    drawToken, 
+    shadow, 
+} from './token';
+
+import { extractDataDice } from './dice';
+import { toast } from 'bulma-toast';
 //import {initGrid, extractData, drawToken} from './grid';
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-let gate_key = $("aedhron-gate").attr('data-key')
 
 let Hooks = {
     GridLive: {
@@ -40,12 +49,11 @@ let Hooks = {
         mounted() {
             const { stage, gridLayer, layer } = variables;
             const info = extractData(this.el);
-            console.log(`mounted ${info.id}`);
             const token = drawToken(stage, info) 
 
             //layer.add(shadow);
             gridLayer.add(token);
-            //token.on('click', event => toggle_arcs(event, info.id));
+            //token.on('click', event => toggle_arcs(event, info.id, stage));
             token.on('dragend', () => {
                 this.pushEvent('move_token', {
                     id: info.id,
@@ -55,6 +63,7 @@ let Hooks = {
                     }
                 })
             })
+            layer.batchDraw();
             stage.batchDraw();
         },
         updated() {
@@ -68,18 +77,27 @@ let Hooks = {
     },
     DiceResult: {
         updated() {
-            const data = extractDataDice(this.el);
+            const { dice, result } = extractDataDice(this.el);
             toast({
-                message: `rolled d${data.dice} and result ${data.result}!`,
-                type: data.result == 1 ? 'is-danger' : 'is-warning',
+                message: `rolled d${dice} and result ${result}!`,
+                type: result == 1 ? 'is-danger' : 'is-warning',
             });
         }
     },
-    InviteModalHook: {
+
+    AvatarPreviewUrl: {
         mounted() {
-            
+            $(this.el).keyup(function({ target: { value } }){
+                try {
+                    const url = new URL(value);
+                    $("#avatar_preview").attr("src", url.href);
+                } catch(error) {
+                    console.error(error.message)
+                }
+            });
         }
     }
+
 }
-let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks, params: {_csrf_token: csrfToken}})
-liveSocket.connect()
+let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks, params: {_csrf_token: csrfToken}});
+liveSocket.connect();

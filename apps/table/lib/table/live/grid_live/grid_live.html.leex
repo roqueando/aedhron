@@ -74,6 +74,28 @@
       <%= live_component @socket, Table.Components.Token, id: component_id(), token: token %>
     <% end %>
 
+    <div class="opt-menu" id="options">
+      <h4>Options</h4>
+     <div>
+       <div class="field has-addons">
+         <div class="control">
+           <input type="number" value="1" id="damage_value" class="input is-small"/>
+         </div>
+         <div class="control">
+         <button id="damage_button" class="button is-danger is-small">damage</button>
+         </div>
+       </div>
+
+       <div class="field has-addons">
+         <div class="control">
+           <input type="number" value="1" id="heal_value" class="input is-small"/>
+         </div>
+         <div class="control">
+         <button id="heal_button" class="button is-success is-small">heal</button>
+         </div>
+       </div>
+     </div> 
+    </div>
     <div id="grid" phx-update="ignore">
 
     </div>

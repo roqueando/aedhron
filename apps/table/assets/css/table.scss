@@ -217,3 +217,26 @@ div.avatar_preview {
   height: 30vh;
   border-radius: 10px;
 }
+
+.opt-menu {
+  display: none;
+  position: absolute;
+  width: 130px;
+  background-color: #a29bfe;
+  box-shadow: 0 0 5px #6c5ce7;
+  border-radius: 3px;
+  z-index: 99;
+  padding: 15px;
+  color: #eee;
+}
+
+.opt-menu button {
+  width: 100%;
+  border: none;
+  padding: 10px;
+  transition: .4s;
+}
+
+.opt-menu button:hover {
+  background-color: #2d3436;
+}

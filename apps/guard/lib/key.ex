@@ -48,22 +48,11 @@ defmodule Guard.Key do
     end
   end
 
-  defp is_invite_valid(invite_owner, key, table_id, invite) do
-    table = Table.get_by_owner_and_id(key, table_id)
-            |> List.first
-
-    if is_nil(invite) do
-      false
-    else
+  defp is_invite_valid(invite_owner, key, _table_id, invite) do
+    unless is_nil(invite) do
       case Guard.Key.verify_and_validate(key) do
-        %{ "owner" => key_owner } ->
-          cond do
-            key_owner === invite_owner ->
-              true
-            key_owner !== invite_owner ->
-              {:error, "You're not invited or god of this adventure!"}
-              false
-          end
+        {:ok, %{"owner" => key_owner}} ->
+          key_owner === invite_owner
         { :error, _param } ->
           false
       end

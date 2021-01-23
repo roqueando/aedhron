@@ -46,15 +46,17 @@ defmodule Table.GridLive do
   end
 
   def handle_event("create_token", %{"token" => token_params}, socket) do
+    health = String.to_integer(token_params["health"])
+    mana = String.to_integer(token_params["mana"])
     token = %{
       id: Warehouse.generate_id(),
       name: token_params["name"],
-      type: :npc,
+      type: String.to_atom(token_params["type"]),
       status: %{
-        health: 10,
-        full_h: 10,
-        full_m: 10,
-        mana: 10
+        health: health,
+        full_h: health,
+        full_m: mana,
+        mana: mana
       },
       position: %{
         x: 0,

@@ -74,6 +74,83 @@
       <%= live_component @socket, Table.Components.Token, id: component_id(), token: token %>
     <% end %>
 
+    <div class="opt-menu" id="options">
+     <div>
+      <h4>health options</h4>
+       <div class="field has-addons">
+         <div class="control">
+           <input type="number" min="1" id="damage_value" class="input is-small" placeholder="damage"/>
+         </div>
+         <div class="control">
+           <button 
+              id="damage_button" 
+              class="button is-danger is-small"
+              phx-hook="DamageButton"
+            >
+             <i class="fas fa-bolt"></i>
+           </button>
+         </div>
+       </div>
+
+       <div class="field has-addons">
+         <div class="control">
+           <input type="number" min="1" id="heal_value" class="input is-small" placeholder="heal"/>
+         </div>
+         <div class="control">
+           <button 
+              id="heal_button" 
+              class="button is-success is-small"
+              phx-hook="HealButton"
+            >
+             <i class="fas fa-heart"/></i>
+           </button>
+         </div>
+       </div>
+     </div> 
+     <div>
+       <hr />
+       <h4>mana options</h4>
+       <div class="field has-addons">
+         <div class="control">
+           <input 
+              type="number" 
+              min="1" 
+              id="consume_value" 
+              class="input is-small" 
+              placeholder="consume"/>
+         </div>
+         <div class="control">
+           <button 
+              id="consume_button" 
+              class="button is-info is-small"
+              phx-hook="ConsumeButton"
+            >
+             <i class="fas fa-magic"></i></i>
+           </button>
+         </div>
+       </div>
+
+       <div class="field has-addons">
+         <div class="control">
+           <input 
+              type="number" 
+              min="1" 
+              id="restore_value" 
+              class="input is-small" 
+              placeholder="restore"/>
+         </div>
+         <div class="control">
+           <button 
+              id="restore_button" 
+              class="button is-warning is-small"
+              phx-hook="RestoreButton"
+            >
+            <i class="fas fa-sync-alt"></i>
+           </button>
+         </div>
+       </div>
+     </div>
+    </div>
     <div id="grid" phx-update="ignore">
 
     </div>

@@ -1,3 +1,3 @@
-# Lumni
+# Aedhron
 
 A lumnicraft platform to RPGists

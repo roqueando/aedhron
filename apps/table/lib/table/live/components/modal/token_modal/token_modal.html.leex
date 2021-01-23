@@ -20,6 +20,22 @@
       </div>
     </div>
   </div>
+  <div class="columns">
+    <div class="column">
+      <label>The type of the token</label>
+      <%= select form, :type, [:npc, :monster], class: "input", placeholder: "The token type"%> 
+      <br></br>
+    </div> 
+  </div>
+
+  <div class="columns">
+    <div class="column">
+      <%= number_input form, :health, class: "input", placeholder: "The token health"%>
+    </div>
+    <div class="column">
+      <%= number_input form, :mana, class: "input", placeholder: "The token mana"%>
+    </div>
+  </div>
 
   <%= submit "Save", phx_disable_with: "Saving token...", class: 'button is-fullwidth is-dark'%> 
 </section>

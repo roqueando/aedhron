@@ -17,7 +17,7 @@ import { Socket } from "phoenix";
 import LiveSocket from "phoenix_live_view";
 import { extractData, initGrid, updateStageAndLayer, variables } from "./grid";
 
-import { drawToken, shadow } from "./token";
+import { drawToken, shadow, updateHealth, updateMana } from "./token";
 
 import { extractDataDice } from "./dice";
 import { toast } from "bulma-toast";
@@ -27,14 +27,6 @@ let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 
-function isRightClick(event) {
-  if ("which" in event.evt) {
-    return event.evt.which === 3;
-  }
-  if ("button" in event.evt) {
-    return event.evt.button === 3;
-  }
-}
 let Hooks = {
   GridLive: {
     mounted() {
@@ -54,8 +46,8 @@ let Hooks = {
       const token = drawToken(stage, info);
 
       //layer.add(shadow);
-      let selected;
       gridLayer.add(token);
+
       token.on("dragend", () => {
         this.pushEvent("move_token", {
           id: info.id,
@@ -74,6 +66,8 @@ let Hooks = {
       const token = stage.findOne(`#${info.id}`);
       token.x(info.x);
       token.y(info.y);
+      updateHealth(token, info.health, info.full_h);
+      updateMana(token, info.mana, info.full_m);
       stage.batchDraw();
     },
   },
@@ -96,6 +90,58 @@ let Hooks = {
         } catch (error) {
           console.error(error.message);
         }
+      });
+    },
+  },
+  DamageButton: {
+    mounted() {
+      $(this.el).click(() => {
+        const damage_value = $("#damage_value").val();
+        this.pushEvent("status_token", {
+          token_id: window.token_id,
+          value: damage_value,
+          type: "damage",
+        });
+        $("#damage_value").val("");
+      });
+    },
+  },
+  HealButton: {
+    mounted() {
+      $(this.el).click(() => {
+        const heal_value = $("#heal_value").val();
+        this.pushEvent("status_token", {
+          token_id: window.token_id,
+          value: heal_value,
+          type: "heal",
+        });
+        $("#heal_value").val("");
+      });
+    },
+  },
+  ConsumeButton: {
+    mounted() {
+      $(this.el).click(() => {
+        const consume_value = $("#consume_value").val();
+        this.pushEvent("status_token", {
+          token_id: window.token_id,
+          value: consume_value,
+          type: "consume_mana",
+        });
+        $("#consume_value").val("");
+      });
+    },
+  },
+  RestoreButton: {
+    mounted() {
+      $(this.el).click(() => {
+        const restore_value = $("#restore_value").val();
+        this.pushEvent("status_token", {
+          token_id: window.token_id,
+          value: restore_value,
+          type: "restore_mana",
+        });
+        $("#restore_value").val("");
       });
     },
   },

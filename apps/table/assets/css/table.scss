@@ -221,13 +221,14 @@ div.avatar_preview {
 .opt-menu {
   display: none;
   position: absolute;
-  width: 130px;
-  background-color: #a29bfe;
-  box-shadow: 0 0 5px #6c5ce7;
+  width: 150px;
+  background-color: #333;
+  box-shadow: 4px 5px 0px #6c5ce7;
   border-radius: 3px;
   z-index: 99;
   padding: 15px;
   color: #eee;
+  transition: .3s;
 }
 
 .opt-menu button {

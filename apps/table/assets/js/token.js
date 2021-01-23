@@ -21,7 +21,11 @@ export function drawToken(stage, info) {
   });
 
   const token = konva_token();
-  const { token_health, token_mana } = status_bars();
+  const { token_health, token_mana } = status_bars(
+    info.health,
+    info.mana,
+    info.full
+  );
   const { name_token, text_name } = token_name(token, info);
 
   set_status_bars_id(token_health, token_mana, info.id);
@@ -71,6 +75,14 @@ export function drawToken(stage, info) {
     stage.batchDraw();
   });
 
+  group.on("contextmenu", (event) => {
+    const {
+      attrs: { id },
+    } = event.target.parent;
+
+    window.token_id = id;
+  });
+
   return group;
 }
 
@@ -89,7 +101,7 @@ function konva_token() {
   });
 }
 
-function status_bars() {
+function status_bars(health, mana, full) {
   const token_health = new Konva.Rect({
     x: block * 3.1,
     y: block * 4.1,
@@ -98,13 +110,14 @@ function status_bars() {
     width: 49,
     height: 0.5,
   });
+
   return {
     token_health,
     token_mana: new Konva.Rect({
       x: token_health.x(),
-      y: block * 4.2,
+      y: block * 4.25,
       stroke: "#a29bfe",
-      strokeWidth: 8,
+      strokeWidth: token_health.strokeWidth(),
       width: token_health.width(),
       height: token_health.height(),
     }),
@@ -138,4 +151,32 @@ function token_name(token, info) {
 function set_status_bars_id(health, mana, id) {
   health.id(`token_health_${id}`);
   mana.id(`token_mana_${id}`);
+}
+
+export function updateHealth(token, health, full) {
+  const full_percent = 49;
+  const current_health = health / full;
+  const percent_bar = current_health * full_percent;
+  const id = token.attrs.id;
+
+  const token_health = token.findOne(`#token_health_${id}`);
+  token_health.to({
+    width: percent_bar,
+    duration: 0.3,
+    easing: Konva.Easings.EaseInOut,
+  });
+}
+
+export function updateMana(token, mana, full) {
+  const full_percent = 49;
+  const current_mana = mana / full;
+  const percent_bar = current_mana * full_percent;
+  const id = token.attrs.id;
+
+  const token_mana = token.findOne(`#token_mana_${id}`);
+  token_mana.to({
+    width: percent_bar,
+    duration: 0.3,
+    easing: Konva.Easings.EaseInOut,
+  });
 }

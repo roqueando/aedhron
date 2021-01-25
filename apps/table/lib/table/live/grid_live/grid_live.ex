@@ -9,11 +9,12 @@ defmodule Table.GridLive do
     socket = 
       socket
       |> assign(:players, [])
-      |> assign(:dropdown_auth, false)
+      |> assign(:dropdown_players, false)
       |> assign(:auth_request, false)
       |> assign(:tokens, [])
       |> assign(:key, nil)
       |> assign(:invite, nil)
+      |> assign(:me, nil)
     {:ok, socket}
   end
 
@@ -28,6 +29,7 @@ defmodule Table.GridLive do
       |> assign(:page_title, "ædhron @ #{table.name}")
       |> assign(:table_name, table.name)
       |> assign(:key, key)
+      |> assign(:master, true)
     {:noreply, socket}
   end
 
@@ -35,6 +37,7 @@ defmodule Table.GridLive do
   def handle_params(%{"id" => id, "invite" => invite}, _uri, socket) do
     if connected?(socket), do: Table.subscribe(id)
     table = Warehouse.Table.get(id)
+    add_player(invite, id)
     socket =
       socket
       |> assign(:table_id, id)
@@ -42,12 +45,15 @@ defmodule Table.GridLive do
       |> assign(:page_title, "ædhron @ #{table.name}")
       |> assign(:table_name, table.name)
       |> assign(:invite, invite)
+      |> assign(:master, false)
     {:noreply, socket}
   end
 
   def handle_event("create_token", %{"token" => token_params}, socket) do
     health = String.to_integer(token_params["health"])
     mana = String.to_integer(token_params["mana"])
+    owner = unless is_nil(token_params["owner"]), do: token_params["owner"], else: nil
+
     token = %{
       id: Warehouse.generate_id(),
       name: token_params["name"],
@@ -64,7 +70,8 @@ defmodule Table.GridLive do
       },
       moves: 6,
       dead: false,
-      avatar: token_params["image"]
+      avatar: token_params["image"],
+      owner: owner
     }
     token |> Table.broadcast(:token_created, socket.assigns.table_id)
 
@@ -85,10 +92,10 @@ defmodule Table.GridLive do
     {:noreply, socket}
   end
   
-  def handle_event("toggle_auth_down", _params, socket) do
+  def handle_event("toggle_player_down", _params, socket) do
     socket =
       socket
-      |> assign(dropdown_auth: !socket.assigns.dropdown_auth)
+      |> assign(dropdown_players: !socket.assigns.dropdown_players)
     {:noreply, socket}
   end
 
@@ -159,6 +166,11 @@ defmodule Table.GridLive do
       |> assign(key: session["auth_key"])
       |> assign(auth_request: false)
     {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:player_added, invited}, socket) do
+    {:noreply, assign(socket, :players, [invited | players(invited, socket)])}
   end
 
   def validate_key(key, table_id) do
@@ -241,6 +253,16 @@ defmodule Table.GridLive do
         })
         |> Table.broadcast(:token_restored, socket.assigns.table_id)
     end
+  end
+
+  defp add_player(invite, table_id) do
+    Key.invite_info(invite)
+    |> Table.broadcast(:player_added, table_id)
+  end
+
+  defp players(player, socket) do
+    socket.assigns.players
+    |> Enum.filter(fn p -> p.player_id != player.player_id end)
   end
 
   defp tokens(token, socket) do

@@ -40,6 +40,9 @@ export function initGrid() {
       return;
     }
 
+    if (!window.master) {
+      menuNode.innerHTML = "I'm not the master";
+    }
     currentShape = e.target;
     menuNode.style.display = "initial";
     const containerRect = stage.container().getBoundingClientRect();
@@ -107,6 +110,7 @@ export function extractData(Element) {
     full_m: parseInt(element.getAttribute("data-token-status-full-m")),
     mana: parseInt(element.getAttribute("data-token-status-mana")),
     type: element.getAttribute("data-token-type"),
+    owner: element.getAttribute("data-token-owner"),
     x: parseInt(element.getAttribute("data-token-position-x")),
     y: parseInt(element.getAttribute("data-token-position-y")),
   };

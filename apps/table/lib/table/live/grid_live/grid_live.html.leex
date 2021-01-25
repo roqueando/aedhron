@@ -3,10 +3,18 @@
   id: "modal-create",
   max_players: @max_players,
   table_id: @table_id,
-  table_name: @table_name
+  table_name: @table_name,
+  invite: @invite
 %>
 <%= live_component @socket, Table.Components.DiceResult, id: "dice_result" %>
 
+<aedhron-master 
+  id="aedhron-master" 
+  data-master="<%= @master %>" 
+  data-invite="<%= @invite %>"
+  data-key="<%= @key %>"
+  phx-hook="AedhronMaster">
+</aedhron-master>
 <%= cond do%>
   <%= (@key !== nil and validate_key(@key, @table_id)) or (@invite != nil and validate_invite(@invite, @table_id)) -> %>
     <header 
@@ -14,41 +22,43 @@
       phx-hook="GridLive"
       id="grid_live"
       >
-      <div class="dropdown <%= if @dropdown_auth, do: "is-active", else: "" %>">
+      <div class="dropdown <%= if @dropdown_players, do: "is-active", else: "" %>">
       <div class="dropdown-trigger">
         <button 
-           class="button is-small <%= if @key !== nil or @invite !== nil, do: "is-success", else: "is-info" %> <%= if @auth_request, do: "is-loading", else: "" %>" 
-           phx-click="toggle_auth_down" 
-           <%= if @auth_request, do: "disabled", else: ""%>
-           >
+           class="button is-small is-success" 
+           phx-click="toggle_player_down">
            <span 
            class="icon is-small " >
-           <i class="fas <%= if @key !== nil or @invite !== nil, do: "fa-lock", else: "fa-unlock"%>" aria-hidden="true"></i>
+           <i class="fas fa-users"></i>
            </span>
         </button>
       </div>
       <div class="dropdown-menu" id="dropdown-menu3" role="menu">
         <div class="dropdown-content" style="background-color: #180c30">
-          <%= unless @key do %>
+          <%= for player <- @players  do%>
             <div class="dropdown-item">
-              <h1 class="title is-4">Authorize</h1>
-              <%= form = form_for :auth, "#", phx_submit: "authenticate" %>
-              <%= email_input form, :email, class: "input is-small", placeholder: "your email"%> 
-              <br></br>
-              <%= submit "enter", phx_disable_with: "authenticating", class: 'button is-fullwidth is-small is-info'%>
-            </div>
-            <%= else %>
-            <div class="dropdown-item">
-              <h1 class="title is-4">Welcome Adventurer!</h1>
+              <span class="icon is-small" style="color: #eee">
+                <i class="far fa-user"></i>
+              </span>
+              <%= unless is_nil(player.name) do%>
+                <span style="color: #eee"><%= player.name %></span>
+                <% else %>
+                <span style="color: #eee"><%= player.email %></span>
+              <% end %>
             </div>
           <% end %>
         </div>
       </div>
       </div>
-
-      <button class="button is-small is-warning" phx-click="open_add_token_modal">
-        <i class="fas fa-street-view"></i>
-      </button>
+      <%= if is_nil(@key) and @invite do%>
+        <button class="button is-small is-warning" phx-click="open_add_player_modal">
+          <i class="far fa-user"></i>
+        </button>
+      <% else %>
+        <button class="button is-small is-warning" phx-click="open_add_token_modal">
+          <i class="fas fa-street-view"></i>
+        </button>
+      <%end%>
       <div class="dropdown is-hoverable">
         <div class="dropdown-trigger">
           <button class="button is-small is-danger" aria-haspopup="true" aria-controls="dropdown-menu4">

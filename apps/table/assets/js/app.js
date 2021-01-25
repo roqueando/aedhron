@@ -28,6 +28,14 @@ let csrfToken = document
   .getAttribute("content");
 
 let Hooks = {
+  AedhronMaster: {
+    mounted() {
+      const isMaster = $(this.el).attr("data-master");
+      window.master = isMaster === "true";
+      window.invite = $(this.el).attr("data-invite");
+      window.key = $(this.el).attr("data-key");
+    },
+  },
   GridLive: {
     mounted() {
       const { stage, gridLayer, layer } = initGrid();

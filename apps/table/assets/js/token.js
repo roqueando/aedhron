@@ -2,6 +2,10 @@ import Konva from "konva";
 
 const block = 60;
 let active = false;
+const NPC_COLOR = "#EE5A24";
+const MONSTER_COLOR = "#EA2027";
+const PLAYER_COLOR = getRandomColor();
+
 export const shadow = new Konva.Rect({
   x: 0,
   y: 0,
@@ -54,9 +58,13 @@ export function drawToken(stage, info) {
     group.add(token_mana);
   }
 
+  if (!window.master && info.type != "player") {
+    group.draggable(false);
+  }
+  if (!window.master && info.type == "player" && window.invite != info.owner) {
+    group.draggable(false);
+  }
   group.on("dragstart", () => {
-    shadow.show();
-    shadow.moveToTop();
     group.moveToTop();
   });
   group.on("dragend", () => {
@@ -65,13 +73,8 @@ export function drawToken(stage, info) {
       y: Math.round(group.y() / block) * block,
     });
     stage.batchDraw();
-    shadow.hide();
   });
   group.on("dragmove", () => {
-    shadow.position({
-      x: Math.round(group.x() / block) * block,
-      y: Math.round(group.y() / block) * block,
-    });
     stage.batchDraw();
   });
 
@@ -81,6 +84,7 @@ export function drawToken(stage, info) {
     } = event.target.parent;
 
     window.token_id = id;
+    window.info = info;
   });
 
   return group;
@@ -125,6 +129,11 @@ function status_bars(health, mana, full) {
 }
 
 function token_name(token, info) {
+  const type_color = {
+    player: PLAYER_COLOR,
+    npc: NPC_COLOR,
+    monster: MONSTER_COLOR,
+  };
   const text_name = new Konva.Text({
     x: token.x(),
     y: token.y(),
@@ -142,7 +151,7 @@ function token_name(token, info) {
       width: text_name.width(),
       height: text_name.height(),
       name: info.id,
-      fill: "#AB2346",
+      fill: type_color[info.type],
       cornerRadius: 5,
     }),
   };
@@ -179,4 +188,9 @@ export function updateMana(token, mana, full) {
     duration: 0.3,
     easing: Konva.Easings.EaseInOut,
   });
+}
+
+function getRandomColor() {
+  const colors = ["#686de0", "#6ab04c", "#ff7979", "#f9ca24", "#22a6b3"];
+  return colors[Math.floor(Math.random() * colors.length) + 0];
 }

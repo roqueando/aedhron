@@ -14,6 +14,11 @@
         <%= live_component @socket, 
           Table.Components.Modal.TokenModal, 
           id: "modal_token" %>
+      <% @type == :add_player ->%>
+        <%= live_component @socket,
+          Table.Components.Modal.PlayerModal,
+          invite: @invite
+        %>
       <% @type == :invite ->%>
         <%= live_component @socket, 
           Table.Components.Modal.InviteModal, 

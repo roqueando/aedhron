@@ -1,0 +1,37 @@
+<header class="modal-card-head">
+  <p class="modal-card-title">Create you character token!</p> 
+  <button class="delete" aria-label="close" phx-click="close_modal"></button>
+</header>
+
+<section class="modal-card-body">
+  <%= form = form_for :token, "#", phx_submit: "create_token" %>
+  <div class="columns">
+    <div class="column">
+      <label>Your character name</label>
+      <%= text_input form, :name, class: "input", placeholder: "The character name"%> 
+      <br></br>
+      <label>The image</label>
+      <%= text_input form, :image, class: "input", placeholder: "The character image URL", phx_hook: "AvatarPreviewUrl" %> 
+      <br></br>
+    </div>
+    <div class="column">
+      <div style="text-align: center">
+        <img class="avatar_preview" alt="" id="avatar_preview" style="max-height: 30vh; border-radius: 10px"/>
+      </div>
+    </div>
+  </div>
+  <%= hidden_input form, :type, value: :player %>
+  <%= hidden_input form, :owner, value: @invite %>
+  <div class="columns">
+    <div class="column">
+      <%= number_input form, :health, class: "input", placeholder: "The character health"%>
+    </div>
+    <div class="column">
+      <%= number_input form, :mana, class: "input", placeholder: "The character mana"%>
+    </div>
+  </div>
+
+  <%= submit "Save", phx_disable_with: "Saving character...", class: 'button is-fullwidth is-dark'%> 
+</section>
+<footer class="modal-card-foot">
+</footer>

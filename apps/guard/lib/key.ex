@@ -2,6 +2,7 @@ defmodule Guard.Key do
   use Joken.Config
   use Timex
 
+  alias Table.Player, as: TablePlayer
   alias Warehouse.Table
   alias Warehouse.Invite
 
@@ -28,6 +29,11 @@ defmodule Guard.Key do
       { :error, _reason } ->
         false
     end
+  end
+
+  def invite_info(invite) do
+    {:ok, %{ "owner" => owner }} = Guard.Key.verify_and_validate(invite)
+    %TablePlayer{ email: owner, name: nil, player_id: invite}
   end
 
   defp is_auth_valid(owner, key, table_id) do
